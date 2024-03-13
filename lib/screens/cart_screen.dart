@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/cart_provider.dart';
@@ -40,40 +41,77 @@ class CartScreen extends StatelessWidget {
                               height: 10,
                             ),
                             Text(
-                              cartProvider.getProductTitleById(cartItem.product.id),
+                              cartProvider.getProductTitleById(
+                                  cartItem.product.id),
                               style: TextStyle(color: Colors.white),
                             ),
                             SizedBox(
                               height: 10,
                             ),
                             Text(
-                              'Price: \$${cartProvider.calculateItemTotalPrice(cartItem).toStringAsFixed(2)}',
+                              'Price: \$${cartProvider.calculateItemTotalPrice(
+                                  cartItem).toStringAsFixed(2)}',
                               style: TextStyle(color: Colors.white),
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.remove,
-                                    color: Colors.white,
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 20),
+                                  child: Text(
+                                    'Quantity:',
+                                    style: TextStyle(color: Colors.white),
                                   ),
-                                  onPressed: () {
-                                    cartProvider.decrementQuantity(cartItem);
-                                  },
                                 ),
-                                Text(
-                                  "${cartItem.quantity}",
-                                  style: TextStyle(color: Colors.white),
+                                SizedBox(
+                                  width: 10,
                                 ),
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.add,
-                                    color: Colors.white,
+                                // IconButton(
+                                //   icon: Icon(
+                                //     Icons.remove,
+                                //     color: Colors.white,
+                                //   ),
+                                //   onPressed: () {
+                                //     cartProvider.decrementQuantity(cartItem);
+                                //   },
+                                // ),
+                                // IconButton(
+                                //   icon: Icon(
+                                //     Icons.add,
+                                //     color: Colors.white,
+                                //   ),
+                                //   onPressed: () {
+                                //     cartProvider.incrementQuantity(cartItem);
+                                //   },
+                                // ),
+                                Flexible(
+                                  child: TextFormField(
+                                    initialValue: cartItem.quantity.toString(),
+                                    onChanged: (value) {
+
+                                      if (value.isNotEmpty && value != '0' && int.tryParse(value) != null) {
+                                        cartProvider.updateQuantity(cartItem, int.parse(value));
+                                      } else {
+
+                                        cartProvider.updateQuantity(cartItem, 1);
+                                      }
+                                    },
+                                    keyboardType: TextInputType.number,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: Colors.white),
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.deny(
+                                        RegExp(r'^0+'),
+                                      ),
+                                    ],
                                   ),
-                                  onPressed: () {
-                                    cartProvider.incrementQuantity(cartItem);
-                                  },
+                                ),
+
+
+
+
+                                SizedBox(
+                                  width: 10,
                                 ),
                                 IconButton(
                                   icon: Icon(
@@ -104,7 +142,8 @@ class CartScreen extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'Total Price: \$${cartProvider.calculateTotalPrice().toStringAsFixed(2)}',
+                  'Total Price: \$${cartProvider.calculateTotalPrice()
+                      .toStringAsFixed(2)}',
                   style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
@@ -119,7 +158,6 @@ class CartScreen extends StatelessWidget {
       ),
     );
   }
-
   void _showDeleteConfirmationDialog(
       BuildContext context,
       CartProvider cartProvider,

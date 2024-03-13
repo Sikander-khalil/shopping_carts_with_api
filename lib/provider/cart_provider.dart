@@ -31,6 +31,14 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateQuantity(CartItem cartItem, int newQuantity) {
+    if (newQuantity > 0) {
+      cartItem.quantity = newQuantity;
+      _saveCartToStorage();
+      notifyListeners();
+    }
+  }
+
   Future<void> _saveCartToStorage() async {
     final String cartData = json.encode(_cartItems);
     await _preferences.setString('cart', cartData);

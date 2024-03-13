@@ -21,32 +21,7 @@ class APIServices {
     }
   }
 
-  // Future<int> addToCart(int userId, List<Map<String, dynamic>> products) async {
-  //   final response = await http.post(
-  //     Uri.parse('$baseURL/carts'),
-  //     headers: {'Content-Type': 'application/json'},
-  //     body: json.encode({'userId': userId, 'products': products}),
-  //   );
-  //
-  //   if (response.statusCode == 200) {
-  //     final Map<String, dynamic> data = json.decode(response.body);
-  //     return data['id'];
-  //   } else {
-  //     throw Exception('Failed to add to cart');
-  //   }
-  // }
-  //
-  // Future<void> updateCart(int cartId, int userId, List<Map<String, dynamic>> products) async {
-  //   await http.put(
-  //     Uri.parse('$baseURL/carts/$cartId'),
-  //     headers: {'Content-Type': 'application/json'},
-  //     body: json.encode({'userId': userId, 'products': products}),
-  //   );
-  // }
-  //
-  // Future<void> deleteCart(int cartId) async {
-  //   await http.delete(Uri.parse('$baseURL/carts/$cartId'));
-  // }
+
 }
 
 
